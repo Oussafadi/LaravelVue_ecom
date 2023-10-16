@@ -31,7 +31,7 @@
                                     </div>
                                     <p tabindex="0" class="focus:outline-none text-xs text-black mt-2">{{ $product->name}}</p>
 
-                                    <add-to-cart :product-id="{{ $product->id }}"></add-to-cart>
+                                    <add-to-cart :product-id="{{ $product->id }}"> </add-to-cart>
                                 </div>
                             </div>
                         </div>
