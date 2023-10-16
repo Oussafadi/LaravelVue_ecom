@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-
-const addToCart = () => console.log('added');
+const productId = defineProps(['productId']);
+const addToCart = () => console.log(productId);
 </script>
 
