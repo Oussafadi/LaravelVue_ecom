@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Repositories\CartRepository;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -22,7 +23,10 @@ class CartController extends Controller
     public function store(Request $request)
     {
         $product = Product::where('id', $request->productId)->first();
-        return $product;
+        $count = (new CartRepository())->add($product);
+        return response()->json([
+            'count' => $count
+        ]);
     }
 
     /**

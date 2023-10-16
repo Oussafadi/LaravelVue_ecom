@@ -27,7 +27,7 @@
                                 <div class="p-4">
                                     <div class="flex items-center">
                                         <h2 tabindex="0" class="focus:outline-none text-lg text-orange-700 font-bold">{{ $product->description}}</h2>
-                                        <p tabindex="0" class="focus:outline-none text-xs text-gray-600 pl-5"></p>
+
                                     </div>
                                     <p tabindex="0" class="focus:outline-none text-xs text-black mt-2">{{ $product->name}}</p>
 
