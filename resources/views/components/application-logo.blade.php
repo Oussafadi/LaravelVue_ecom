@@ -1,0 +1,1 @@
+<img src=" {{asset('ecommerce-svgrepo-com.svg') }}" alt="logo" height="100" width="100" />
