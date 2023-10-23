@@ -7,6 +7,10 @@
 <script setup>
 
 import useProduct from '../composables/products';
+import emitter from 'tiny-emitter/instance';
+
+// tiny emitter package to listen to custom event
+//const emitter = require('tiny-emitter/instance');
 
 const { add } = useProduct();
 const productId = defineProps(['productId']);
@@ -14,8 +18,11 @@ const productId = defineProps(['productId']);
 const addToCart = async() => {
 await axios.get('/sanctum/csrf-cookie');
 await axios.get('api/user').then(async(result) => {
-  await add(productId);
+   let cartCount = await add(productId);
+   emitter.emit('CartCountChanged' , cartCount);
 
+}).catch((err) => {
+    console.log(err);
 }).catch((err) => {
     console.log(err);
 });
