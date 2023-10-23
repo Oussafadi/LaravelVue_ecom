@@ -14,12 +14,20 @@
 import { onMounted ,ref } from 'vue';
 
 import useProduct from '../composables/products';
+import emitter from 'tiny-emitter/instance';
 
 const { getCount } = useProduct();
 const cartCount = ref(0);
 
+//const emitter = require('tiny-emitter/instance'); require does not work with vite
+emitter.on('CartCountChanged', (updatedCount) => 
+    cartCount.value = updatedCount
+);
+
 onMounted(async () => {
     cartCount.value = await getCount();
-})
+});
+
+
 
 </script>
