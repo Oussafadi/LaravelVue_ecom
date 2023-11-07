@@ -58,7 +58,7 @@
               </tbody>
           </table>
           <hr class="pb-6 mt-6">
-          <div class="my-4 mt-6 w-1/2 -mx-2">    
+          <div class="my-4 mt-6 w-1/2 mx-auto">    
             <div class="px-2">
               <div class=" text-center p-4 bg-gray-100 rounded-full">
                   <h1 class="ml-2 font-bold uppercase">Command Details</h1>
@@ -70,7 +70,7 @@
                           Total
                       </div>
                       <div class="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-gray-900">
-                           100000
+                           {{ totalCart }}
                       </div>
                       </div>
                   <a href="/checkout">
@@ -90,11 +90,16 @@
 <script setup>
 import { onMounted , ref ,computed } from 'vue';
 import useProduct from '../composables/products';
+import emitter from 'tiny-emitter/instance';
 
    
-   const {products,getCartProducts,increment,decrement,remove} = useProduct();
+   const {products,getCartProducts,increment,decrement,remove,cartCount} = useProduct();
 
-   //const totalCart = computed(()=> products.value.re)
+   const totalCart = computed( ()=> {
+    const price = Object.values(products.value).reduce((acc,product)=>acc= acc+(product.quantity*product.price) ,0);
+    return price ;
+   }
+   );
    
    onMounted(async() => {
    await getCartProducts();
@@ -102,13 +107,19 @@ import useProduct from '../composables/products';
 
    const incrementProduct = async (id) => {
         await increment(id);
+        await getCartProducts();
+        emitter.emit('CartCountChanged' , cartCount.value);
    };
 
    const decrementProduct = async(id) => {
      await decrement(id);
+     await getCartProducts();
+     emitter.emit('CartCountChanged' , cartCount.value);
    };
 
    const removeProduct = async (id) => {
       await remove(id);
+      await getCartProducts();
+      emitter.emit('CartCountChanged' , cartCount.value);
    };
 </script>

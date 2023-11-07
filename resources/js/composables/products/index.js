@@ -2,10 +2,12 @@ import {ref, transformVNodeArgs} from 'vue';
 export default function useProduct() {
      
      const products = ref([]);
+     const cartCount=ref(0);
 
     const getCartProducts = async() => {
         let response = await axios.get('api/products');
         products.value = response.data.products;
+        cartCount.value = response.data.cartCount;
     }
 
     const add =  async(productId) => {
@@ -35,6 +37,6 @@ export default function useProduct() {
     };
 
     return {
-        add,getCount,getCartProducts,products,increment , decrement , remove
+        add,getCount,getCartProducts,products,increment , decrement , remove,cartCount
     }
 }

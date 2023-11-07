@@ -15,9 +15,11 @@ class CartController extends Controller
     public function index()
     {
         $products = (new CartRepository())->content();
+        $cartCount = (new CartRepository())->count();
 
         return response()->json([
-            'products' => $products
+            'products' => $products,
+            'cartCount' => $cartCount
         ]);
     }
 
