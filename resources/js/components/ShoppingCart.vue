@@ -16,19 +16,19 @@
               </tr>
               </thead>
               <tbody>
-                  <template >
+                  <template v-for="product in products" v-bind:key="product.id">
                       <tr>
-                          <td class="hidden pb-4 md:table-cell">
+                          <td class="pb-4 md:table-cell">
                           <a href="#">
-                              <img  class="w-20 rounded" alt="Thumbnail">
+                              <img :src="product.associatedModel.image"  class="w-20 rounded" alt="Thumbnail">
                           </a>
                           </td>
                           <td>
                           <a href="#">
-                              <p class="mb-2 md:ml-4" > Nom produit</p>
+                              <p v-text="product.name" class="mb-2 md:ml-4" > </p>
                               <form action="" method="POST">
-                              <button type="submit" class="text-gray-700 md:ml-4">
-                                  <small >(Delete)</small>
+                              <button v-on:click.prevent="removeProduct(product.id)" type="submit" class="text-gray-700 md:ml-4">
+                                  <small class="text-red-600" >(Delete)</small>
                               </button>
                               </form>
                           </a>
@@ -36,21 +36,21 @@
                           <td class="justify-center md:justify-end md:flex mt-6">
                           <div class="w-20 h-10">
                               <div class="relative flex w-full h-8 space-x-5">
-                                  <button >-</button>
+                                  <button v-on:click.prevent="decrementProduct(product.id)" >-</button>
                               <input
                                   readonly
                                   type="input"
-                                 
-                                  class="w-full font-semibold text-center text-gray-700 bg-gray-200 outline-none focus:outline-none hover:text-black focus:text-black" />
-                              <button >+</button>
+                                  :value="product.quantity"
+                                  class="w-full font-semibold text-center text-black bg-gray-200 outline-none focus:outline-none hover:text-black focus:text-black" />
+                              <button v-on:click.prevent="incrementProduct(product.id)" >+</button>
                               </div>
                           </div>
                           </td>
-                          <td class="hidden text-right md:table-cell">
-                          <span class="text-sm lg:text-base font-medium" ></span>
+                          <td class="text-right md:table-cell">
+                          <span v-text="product.price" class="text-sm lg:text-base font-medium" ></span>
                           </td>
                           <td class="text-right">
-                          <span class="text-sm lg:text-base font-medium" >
+                          <span v-text="product.price*product.quantity" class="text-sm lg:text-base font-medium" >
                           </span>
                           </td>
                       </tr> 
@@ -88,5 +88,27 @@
   </template>
 
 <script setup>
+import { onMounted , ref ,computed } from 'vue';
+import useProduct from '../composables/products';
 
+   
+   const {products,getCartProducts,increment,decrement,remove} = useProduct();
+
+   //const totalCart = computed(()=> products.value.re)
+   
+   onMounted(async() => {
+   await getCartProducts();
+   });
+
+   const incrementProduct = async (id) => {
+        await increment(id);
+   };
+
+   const decrementProduct = async(id) => {
+     await decrement(id);
+   };
+
+   const removeProduct = async (id) => {
+      await remove(id);
+   };
 </script>

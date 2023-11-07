@@ -14,7 +14,11 @@ class CartController extends Controller
      */
     public function index()
     {
-        //
+        $products = (new CartRepository())->content();
+
+        return response()->json([
+            'products' => $products
+        ]);
     }
 
     /**
@@ -38,27 +42,22 @@ class CartController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function increment(int $id)
     {
-        //
+        (new CartRepository())->increment($id);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function decrement(int $id)
     {
-        //
+        (new CartRepository())->decrement($id);
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(int $id)
     {
-        //
+        (new CartRepository())->delete($id);
     }
 }
